@@ -16,13 +16,31 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   int _pessoas = 0;
+  String _mensagem = "Vazio, pode entrar!";
 
   void _mudarPessoas(int delta){
     setState(() {
       _pessoas += delta;
     });
+  }
+  void _checarPessoas(){
+    if (_pessoas >= 10){
+      setState(() {
+        _pessoas = 10;
+        _mensagem = "Esta lotado!";
+      });
+    }else if(_pessoas <= 0){
+      setState(() {
+        _pessoas = 0;
+        _mensagem = "Vazio. pode entrar!";
+      });
 
-
+    }
+    else{
+      setState(() {
+        _mensagem = "Pode entrar!";
+      });
+    }
   }
 
   @override
@@ -53,7 +71,7 @@ class _HomeState extends State<Home> {
                         ),
                         onPressed: (){
                           _mudarPessoas(1);
-
+                          _checarPessoas();
                           debugPrint("+1");
                         },
                       ),
@@ -66,13 +84,14 @@ class _HomeState extends State<Home> {
                         ),
                         onPressed: (){
                           _mudarPessoas(-1);
+                          _checarPessoas();
                           debugPrint("-1");
                         },
                       ),
                     ),
                   ],
                 ),
-                Text("Pode entrar!",
+                Text("$_mensagem",
                   style: TextStyle(
                       color: Colors.white,
                       fontStyle: FontStyle.italic,
